@@ -1,0 +1,75 @@
+---
+title: "Assessing Machine Translation Performance in Processing Ellipses"
+author: "Isabelle Chang"
+institute: "Rutgers University"
+date: "2023/05/01 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    css: [default,hygge,rutgers,rutgers-fonts]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+```{r load_libs}
+library("papaja")
+library("tidyverse")
+library("here")
+library("ds4ling")
+library("lmtest")
+```
+
+```{r load_data}
+
+```
+# Background Information
+## Literature
+- 
+---
+# Background Information
+## Ellipsis types
+- Verb Phrase Ellipsis (VPE)
+- Noun Phrase Ellipsis (NPE)
+- Sluicing
+- Argument Ellipsis
+- VPE-Like Constructions with Verb Stranding
+
+---
+# Methodology
+## Experimental Setup
+- 2 native English speakers and 2 Japanese speakers (1 native, 1 advanced L2) generated sentences
+- 5 sentences per ellipsis type per source language (30 sentences total)
+- Each sentence was run through the following machine translation services: Google Translate, Microsoft Bing, and DeepL
+    - 45 translations per language, 90 total
+---
+# Methodology
+## Translation Scoring
+- Alphabetical scoring system:
+```{r, alpha_scoring}
+knitr::include_graphics("Users/Izzie/Desktopfinal_project/figs/alphabetical_scoring.png")
+```
+
+- Numerical scoring system:
+
+---
+# Results
+## Descriptive Statistics
+```{r}
+# first, clean the data
+# then,
+#stats i want: mean of each ellipsis type for each system
+#two tables: meaning and grammaticality
+#knitr::kable(
+#  data = my_table_data, #put summary of tidy data here
+#  caption = "Example table with three columns and two rows.",
+#  align = c("l", "c", "r")
+#)
+```
+# Analysis
+- Goal: finding the ideal model, how much to weight each factor

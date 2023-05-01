@@ -1,0 +1,165 @@
+---
+title: "Fricatives"
+subtitle: ""
+author: "Isabelle Chang"
+institute: "Rutgers University"
+date: "Last Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library("tidyverse")
+library("here")
+library("ds4ling")
+library("patchwork")
+library("untidydata")
+library("broom")
+library("emmeans")
+```
+
+```{r load_data, include=FALSE}
+#load data from csv
+raw_data <- read_csv(
+  file=here("data_raw", "fricatives.csv"))
+
+tidy_data <- raw_data
+tidy_data %>%
+  #fric: s, esh
+  #names to = fric, measurement
+  pivot_longer(cols=c("s_cog", "sh_cog", "s_skewness", "sh_skewness"),
+               names_to = c("fric", "m_type"),
+               names_sep = "_",
+               values_to = "m_val") %>%
+  arrange(obs, fric) %>%
+  write_csv(file=here("data_tidy", "fricatives_tidy.csv"))
+```
+
+# Descriptive Statistics
+```{r, message=FALSE, echo=FALSE}
+#get descriptive stats
+fric_stats <- read_csv(file=here("data_tidy", "fricatives_tidy.csv"))
+fric_stats %>%
+  group_by(fric) %>%
+  summarize(
+    avg_skew=mean(subset(m_val,m_type=="skewness")),
+    sd_skew=sd(subset(m_val, m_type=="skewness")),
+    avg_cog=mean(subset(m_val, m_type=="cog")),
+    sd_cog=sd(subset(m_val, m_type=="cog"))) %>%
+  write_csv(file=here("data_tidy", "fricatives_summary.csv"))
+#put it in a table
+fric_table <- read_csv(file=here("data_tidy", "fricatives_summary.csv"))
+fric_table %>%
+  mutate_if(is.numeric, round, digits=3) %>%
+  arrange(fric) %>%
+  knitr::kable()
+```
+---
+# Center of Gravity as a Function of Phoneme
+
+```{r, message=FALSE, echo=FALSE}
+#x: s and sh
+#y: the cog values
+cog_plot <- read_csv(file=here("data_tidy", "fricatives_tidy.csv"))
+cog_plot %>%
+  #first make it smaller by grabbing subset of m_val
+  subset(m_type == "cog") %>%
+  #then plot
+  ggplot() + 
+  aes(x=factor(fric), 
+      y=m_val,
+      fill=factor(fric)) +
+  xlab("Phoneme") +
+  ylab("Center of Gravity (Hz)") +
+  labs(fill="Phoneme") +
+  geom_boxplot() +
+  geom_point()
+```
+
+---
+
+# Skewness as a Function of Phoneme
+
+```{r, message=FALSE, echo=FALSE}
+#x: s and sh
+#y: the skewness values
+skew_plot <- read_csv(file=here("data_tidy", "fricatives_tidy.csv"))
+skew_plot %>%
+  #first make it smaller by grabbing subset of m_val
+  subset(m_type == "skewness") %>%
+  #then plot, but with stats summary this time
+  ggplot() + 
+  aes(x=factor(fric), 
+      y=m_val,
+      fill=factor(fric)) +
+  xlab("Phoneme") +
+  ylab("Skewness") +
+  labs(fill="Phoneme") +
+  stat_summary(fun.data=mean_se, geom='pointrange', pch=21)
+```
+
+---
+# Center of Gravity as a Function of Skewness for [s]- Model Summary
+```{r message=FALSE, echo=FALSE}
+#read in data
+cog_skew <- read_csv(file=here("data_tidy", "fricatives_tidy.csv")) %>%
+  subset(fric=="s") %>%
+  pivot_wider(names_from="m_type", values_from="m_val")
+#model
+cogskew_mod <- lm(cog ~ 1 + skewness, data=cog_skew)
+#table
+tidy(cogskew_mod) %>%
+  knitr::kable()
+```
+---
+# Center of Gravity as a Function of Skewness for [s]- Scatter Plot
+```{r message=FALSE, echo=FALSE, out.height="50%", out.width="50%"}
+cogskew_plot <- cog_skew %>%
+#scatter plot
+  ggplot() +
+  aes(x=round(skewness,2), y=round(cog,2)) +
+  xlab("Skewness") +
+  ylab("Center of Gravity (Hz)") +
+  geom_point()
+
+cogskew_plot
+```
+---
+# Model Diagnostics
+---
+# Results
+---
+# Assumptions Dataset
+```{r message=FALSE, echo=FALSE}
+assumptions_plot <- read_csv(file=here("data_raw", "assumptions.csv")) %>%
+  ggplot() +
+  aes(x=x, y=y) +
+  xlab("x") +
+  ylab("y") +
+  geom_point()
+
+assumptions_plot
+```
+
+---
+
+# Assumptions Dataset - Analysis
+
+It would not be appropriate to fit a linear model to this dataset because it violates multiple assumptions we have to make when fitting a linear model:
+- Visually, the relationship between each $x_i$ and $y_i$ value is nonlinear
+- The model summary for a linear model fitted to $x_i$ and $y_i$ values shows that the mean of its residuals is non-zero.
+```{r, message=FALSE, echo=FALSE, include=FALSE}
+assumptions_data = read_csv(file=here("data_raw", "assumptions.csv"))
+
+mod_assumptions <- lm(x~y, data=assumptions_data)
+
+summary(mod_assumptions)
+                           
+```
