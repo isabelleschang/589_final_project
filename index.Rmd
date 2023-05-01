@@ -30,15 +30,17 @@ library("lmtest")
 ```
 # Background Information
 ## Literature
+- Machine translation errors often occur at the ellipsis site
+- Accuracy of machine translations are correlated with ellipsis strategies
 - 
 ---
 # Background Information
 ## Ellipsis types
-- Verb Phrase Ellipsis (VPE)
-- Noun Phrase Ellipsis (NPE)
+- Verb Phrase Ellipsis (VPE, English only)
+- Noun Phrase Ellipsis (NPE, English only)
 - Sluicing
-- Argument Ellipsis
-- VPE-Like Constructions with Verb Stranding
+- Argument Ellipsis (Japanese only)
+- VPE-Like Constructions with Verb Stranding (Japanese only)
 
 ---
 # Methodology
@@ -63,7 +65,6 @@ grammaticality_score <- c(1, 2, 3, 6, 7, 5, 4)
 table <- data.frame(alphabetical_score,meaning_score,grammaticality_score)
 table %>% knitr::kable()
 ```
-
 ---
 # Results
 ## Descriptive Statistics
