@@ -28,6 +28,7 @@ data_tidy
 #constant model - meaning (subset of numerical scores meaning)
 meaning_subset <-  subset(data_tidy, num_metric=="meaning")
 meaning_subset
+
 mod_meaning <- lm(num_score ~ 1, data = meaning_subset)
 summary(mod_meaning)
 
@@ -40,11 +41,12 @@ mod_int_m <- lm(num_score ~ ellipsis_type:mt_service, data = meaning_subset)
 #constant model - gram (subset of numerical scores corresponding to grammaticality)
 gram_subset <-  subset(data_tidy, num_metric=="grammaticality")
 gram_subset
+
 mod_gram <- lm(num_score ~ 1, data = gram_subset)
 summary(mod_gram)
 
-mod_eltype_g <- lm(num_score ~ 1, data = meaning_subset)
+mod_eltype_g <- lm(num_score ~ ellipsis_type, data = gram_subset)
 
-mod_add_g <- lm(num_score ~ 1, data = meaning_subset)
+mod_add_g <- lm(num_score ~ ellipsis_type + mt_service, data = gram_subset)
 
-mod_int_g <- lm(num_score ~ 1, data = meaning_subset)
+mod_int_g <- lm(num_score ~ ellipsis_type:mt_service, data = gram_subset)
