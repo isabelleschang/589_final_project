@@ -6,8 +6,8 @@ library("lmtest")
 library("reshape2")
 
 # read data
-data_raw = read_csv(file=here("497_raw.csv"))
-plot0 <- data_raw %>%
+data_raw = read_csv(file=here("data","data_raw","497_raw.csv"))
+data_tidy <- data_raw %>%
   mutate(
     meaning = as.factor(`Meaning Score`),
     grammaticality = as.factor(`Grammaticality Score`)) %>%
@@ -16,7 +16,9 @@ plot0 <- data_raw %>%
                names_to="metric",
                values_to = "num_score") %>%
   subset(num_score != "NA") %>%
-  mutate(num_score = as.numeric(num_score)) %>%
+  mutate(num_score = as.numeric(num_score))
+
+plot_0 <- data_tidy %>%
   ggplot() +
   aes(x = metric, y = num_score, color=`Ellipsis type`) +
   ggtitle("Numerical Scores As A Function Of Metric") +

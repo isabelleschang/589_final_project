@@ -59,9 +59,9 @@ knitr::include_graphics(here("figs","alphabetical_scoring.png"))
 # Methodology
 ## Translation Scoring - Numerical
 ```{r, num_scoring, echo=FALSE}
-alphabetical_score <- c('A', 'B', 'C', 'D', 'E', 'F', 'G')
-meaning_score <- c(1, 2, 3, 4, 5, 6, 7)
-grammaticality_score <- c(1, 2, 3, 6, 7, 5, 4)
+alphabetical_score <- c('A', 'D', 'E', 'F', 'G')
+meaning_score <- c(5, 4, 3, 2, 1)
+grammaticality_score <- c(5, 2, 1, 4, 3)
 table <- data.frame(alphabetical_score,meaning_score,grammaticality_score)
 table %>% knitr::kable()
 ```
@@ -69,41 +69,29 @@ table %>% knitr::kable()
 # Results
 ## Descriptive Statistics
 ```{r, read_tidy, include=FALSE}
-data_raw = read_csv(file=here("data","data_raw","497_raw.csv"))
-data_raw %>%
-  mutate(
-    meaning = as.factor(`Meaning Score`),
-    grammaticality = as.factor(`Grammaticality Score`)) %>%
-  select(meaning, grammaticality, `Ellipsis type`) %>%
-  pivot_longer(cols=c("meaning", "grammaticality"),
-               names_to="metric",
-               values_to = "num_score") %>%
-  subset(num_score != "NA") %>%
-  mutate(num_score = as.numeric(num_score)) %>%
-  write_csv(here("data", "data_tidy", "497_tidy.csv"))
-
-data_tidy = read_csv(file=here("data","data_tidy","497_tidy.csv"))
+data_tidy = read_csv(file=here("data","data_tidy","589_tidy.csv"))
 data_factor <- data_tidy %>%
   mutate(
-    ellipsis_type = as.factor(`Ellipsis type`),
-    metric_type = as.factor(`metric`)
+    ellipsis_type = as.factor(`ellipsis_type`),
+    num_metric = as.factor(`num_metric`)
   ) %>%
-  select(ellipsis_type,metric_type,num_score)
+  select(ellipsis_type,num_metric,num_score)
 data_factor
 ```
 
 ```{r desc_stats, echo=FALSE, message=FALSE}
 ellipsis_stats <- data_factor %>%
-  group_by(ellipsis_type,metric_type) %>%
+  group_by(ellipsis_type,num_metric) %>%
   summarize(avg=mean(num_score)) %>%
-  pivot_wider(names_from="metric_type", values_from="avg") %>%
+  pivot_wider(names_from="num_metric", values_from="avg") %>%
   knitr::kable()
 
 ellipsis_stats
 ```
 
 - So far, these values suggest that grammaticality is prioritized over meaning in machine translation.
-- Argument Ellipsis and VPE-like constructions scored the lowest in both grammaticality and meaning.
+- Argument ellipsis and VPE-like constructions have a lower average meaning score than sentences with sluicing.
+- Argument ellipsis has the highest average grammaticality score, while VPE-like constructions have the lowest.
 - Next steps:
     - Separating sluicing data by source language
     - Fitting classification models to explore other predictors (machine translation service, source language, etc...)
