@@ -46,13 +46,7 @@ A total of 14 participants were recruited for this study. Participant age ranged
 ## Materials
 
 ### Source Sentences
-15 sentences containing one of three ellipsis strategies present in Japanese were generated or selected from existing literature (five for each ellipsis strategy). The three selected strategies were as follows:
-
-* Argument Ellipsis: Also called nominal ellipsis, this
-* Verb Phrase Ellipsis-Like constructions:
-* Sluicing: A specific type of clausal ellipsis.
-
-Japanese sentences were generated with the help of two native Japanese speakers. An intended translation was provided for each sentence to serve as a comparison for the machine-generated translations.
+15 sentences containing one of three ellipsis strategies present in Japanese were generated or selected from existing literature (five for each ellipsis strategy). The three selected strategies were argument ellipsis, verb-phrase-ellipsis-like constructions, and sluicing. Japanese sentences were generated with the help of two native Japanese speakers. An intended translation was provided for each sentence to serve as a comparison for the machine-generated translations.
 
 ### Stimuli - Translations
 Each of the 15 Japanese sentences was translated using Google, Microsoft Bing, and DeepL Translate (all three services utilize artificial neural networks) for a total of 45 translations.
@@ -90,7 +84,7 @@ head(data_tidy) %>%
   knitr::kable()
 ```
 ## Descriptive Statistics
-Descriptive statistics of acceptability ratings are provided below:
+Mean scores for meaning and grammaticality are listed below:
 ```{r, read_tidy, include=FALSE}
 data_tidy = read_csv(file=here("data","data_tidy","589_tidy.csv"))
 data_factor <- data_tidy %>%
