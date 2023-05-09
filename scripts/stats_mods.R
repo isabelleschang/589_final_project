@@ -26,6 +26,7 @@ ellipsis_stats <- data_factor %>%
 
 data_tidy
 #constant model - meaning (subset of numerical scores meaning)
+# mean-center data?
 meaning_subset <-  subset(data_tidy, num_metric=="meaning")
 meaning_subset
 
@@ -50,3 +51,6 @@ mod_eltype_g <- lm(num_score ~ ellipsis_type, data = gram_subset)
 mod_add_g <- lm(num_score ~ ellipsis_type + mt_service, data = gram_subset)
 
 mod_int_g <- lm(num_score ~ ellipsis_type:mt_service, data = gram_subset)
+
+
+#mixed effect model?

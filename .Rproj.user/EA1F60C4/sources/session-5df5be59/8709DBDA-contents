@@ -1,0 +1,50 @@
+# 1. load data
+source(here::here("scripts","libs.R")) #loads all packages
+# here::here --> "from the package 'here', use function 'here'"; did this because we didn't load "here" library yet
+# :: allows us to use a function from a library without loading the whole library
+poisson_raw <- read_csv(here("data", "poisson_data.csv"))
+
+poisson_tidy <- poisson_raw %>%
+  mutate(city = as.factor(city),
+         temp_c = temp-mean(temp)) #mean-centering temperature
+
+poisson_tidy
+# 2. check structure
+head(poisson_tidy)
+summary(poisson_tidy)
+
+# 2a. Plots!
+p_ic <- poisson_tidy %>%
+  ggplot() + 
+  aes(x=temp_c, y=units, color=city) +
+  geom_point(alpha=0.2) +
+  geom_smooth(method="glm",
+              method.args=list(family="poisson")) +
+  scale_color_viridis_d(option="C", begin=0.2, end=0.9) +
+  theme_dark() +
+  theme(legend.position = c(0.1, 0.85))
+
+ggsave(
+  filename = here("figs", "p_ic.png"),
+  plot = p_ic,
+)
+# 3. fit inclusive and nested models
+#    test for interactions/main effects
+
+
+
+
+# 4. summary of best model
+
+
+
+
+# 5. write up of output
+
+
+
+# 6. generate and save plot
+
+
+
+

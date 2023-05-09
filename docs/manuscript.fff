@@ -1,0 +1,7 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{../figs/alphabetical_scoring.png}
+\caption{Alphabetical Scoring Scale}
+\end{figure*}

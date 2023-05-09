@@ -1,0 +1,108 @@
+---
+title             : "Evaluating Machine Translation Performance In Processing Japanese Ellipsis Strategies"
+shorttitle        : "Machine Translation of Japanese Ellipses"
+author: 
+  - name          : "Isabelle Chang"
+affiliation:
+  - id            : "1"
+    institution   : " Rutgers University"
+keywords          : "keywords"
+wordcount         : "X"
+bibliography      : "r-references.bib"
+floatsintext      : yes
+linenumbers       : yes
+draft             : no
+mask              : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+library("tidyverse")
+library("here")
+library("ds4ling")
+library("lmtest")
+library("reshape2")
+r_refs("r-references.bib")
+#tinytex::install_tinytex()
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Methods
+We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
+
+## Participants
+A total of 14 participants were recruited for this study. Participant age ranged between 19 and 22 years old. All participants were L1 speakers of English, none of which had any formal linguistics training.
+
+## Materials
+
+### Source Sentences
+15 sentences containing one of three ellipsis strategies present in Japanese were generated or selected from existing literature (five for each ellipsis strategy). The three selected strategies were as follows:
+
+* Argument Ellipsis: Also called nominal ellipsis, this
+* Verb Phrase Ellipsis-Like constructions:
+* Sluicing: A specific type of clausal ellipsis.
+
+Japanese sentences were generated with the help of two native Japanese speakers. An intended translation was provided for each sentence to serve as a comparison for the machine-generated translations.
+
+### Stimuli - Translations
+Each of the 15 Japanese sentences was translated using Google, Microsoft Bing, and DeepL Translate (all three services utilize artificial neural networks) for a total of 45 translations.
+
+## Acceptability Rating Task
+
+### Procedure
+Participants were screened for English proficiency prior to completing this task. For the acceptability rating task, participants were presented with each of the 45 machine-generated translations along with an alphabetical scoring scale (A, D, E, F, G) and asked to assign a score to each translation. Additionally, there were two filler questions presented to the participants halfway and three-quarters of the way through the acceptability rating task.
+
+### Scoring
+The original alphabetical scoring scale was adopted from [Khullar 2021](https://direct.mit.edu/coli/article/47/4/927/106771/Are-Ellipses-Important-for-Machine-Translation):
+
+![Alphabetical Scoring Scale](../figs/alphabetical_scoring.png)
+
+For the present study, B and C scores are removed. This was done in part to account for participants’ lack of linguistic background. Additionally, argument ellipsis and VPE-like constructs do not exist in English. As such, any grammatical translation in English would not contain these ellipsis strategies, guaranteeing a B or C ranking for Japanese sentences that contain them. The research questions of this project revolve around the accuracy of translation services—that is, how faithfully translation services are able to retain meaning and grammaticality across across Japanese-English translations. As such, B and C scores were replaced with A scores.
+Participant-provided alphabetical scores were converted into two sets of numerical scores to quantify the machine translation services’ performance on both the meaning and grammaticality of their outputs. The letter-to-number conversion is as follows:
+
+```{r, num_scoring, echo=FALSE}
+alphabetical_score <- c('A', 'D', 'E', 'F', 'G')
+meaning_score <- c(5, 4, 3, 2, 1)
+grammaticality_score <- c(5, 2, 1, 4, 3)
+table <- data.frame(alphabetical_score,meaning_score,grammaticality_score)
+table %>% knitr::kable()
+```
+
+The original alphabetical scoring scale only evaluates a translation’s faithfulness to the source sentence ellipsis strategy (A-C) and meaning (D-G). Adding another scoring scale for grammaticality allows us to evaluate grammaticality and meaning independently of one another.
+
+
+## Data analysis
+14 participants produced 45 acceptability judgments each for a total of 1260 observations (630 for grammaticality and 630 for meaning). Responses to all questions were collected on a Google Form and converted into a .csv file for the following raw data:
+
+```{r, data_raw}
+data_raw <- read_csv('./data/data_raw/translation_data_raw.csv')
+head(data_raw)
+```
+
+In the data tidying process, all non-evaluation data were removed. Participant-given alphabetical scores were converted into two separate numerical scores using the system outlined above to yield the following data:
+```{r, data_tidy}
+data_tidy <- read_csv('./data/data_tidy/589_tidy')
+head(data_tidy)
+```
+
+# Results
+
+# Discussion
+
+
+\newpage
+
+# References
+
+::: {#refs custom-style="Bibliography"}
+:::

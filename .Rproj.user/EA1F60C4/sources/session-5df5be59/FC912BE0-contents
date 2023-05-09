@@ -26,18 +26,63 @@ ellipsis_stats <- data_factor %>%
 
 data_tidy
 #constant model - meaning (subset of numerical scores meaning)
+# mean-center data?
 meaning_subset <-  subset(data_tidy, num_metric=="meaning")
 meaning_subset
+meaning_binom <- meaning_subset %>%
+  mutate(num_score = ifelse(num_score >= 3, 1, 0))
 
-mod_meaning <- lm(num_score ~ 1, data = meaning_subset)
-summary(mod_meaning)
+meaning_binom
+
+#mod_meaning <- lm(num_score ~ 1, data = meaning_subset)
+#summary(mod_meaning)
+
+mod_log_meaning <- glm(
+  num_score ~ 1,
+  data = meaning_binom,
+  family = binomial(link="logit") #if nothing here, then family=gaussian aka normal
+  #binomial here is actually bernoulli
+)
+
+meaning_cor <- meaning_subset %>%
+  select(ellipsis_type,num_score)
+
+meaning_cor
+  
+res <- cor(meaning_cor)
+round(res, 2)
+summary(mod_log_meaning)
+
+meaning_binom %>%
+  ggplot() +
+  aes(x=mt_service, y=num_score, color=ellipsis_type) +
+  geom_jitter(height=0, width=0.3, alpha=0.1) + # geom_jitter disperses summary points over a bit so they're not all stacked on top of one another; keep height=0 here because we can them to stay either 0 or 1
+  stat_summary(fun.data=mean_se,
+               geom="pointrange",
+               position=position_dodge(0.5))
+
+titanic_tidy %>%
+  ggplot() +
+  aes(x=Sex, y=Survived, color=class) +
+  geom_jitter(height=0, width=0.3, alpha=0.1) + # geom_jitter disperses summary points over a bit so they're not all stacked on top of one another; keep height=0 here because we can them to stay either 0 or 1
+  stat_summary(fun.data=mean_se,
+               geom="pointrange",
+               position = position_dodge(0.5))
 
 mod_eltype_m <- lm(num_score ~ ellipsis_type, data = meaning_subset)
+summary(mod_eltype_m)
 
 mod_add_m <- lm(num_score ~ ellipsis_type + mt_service, data = meaning_subset)
 
 mod_int_m <- lm(num_score ~ ellipsis_type:mt_service, data = meaning_subset)
 
+lin_plot_m <- meaning_subset %>%
+  ggplot() +
+  aes(x=ellipsis_type, y=num_score, se=TRUE) +
+  geom_point() +
+  geom_smooth(method=lm)
+
+lin_plot_m
 #constant model - gram (subset of numerical scores corresponding to grammaticality)
 gram_subset <-  subset(data_tidy, num_metric=="grammaticality")
 gram_subset
@@ -50,6 +95,3 @@ mod_eltype_g <- lm(num_score ~ ellipsis_type, data = gram_subset)
 mod_add_g <- lm(num_score ~ ellipsis_type + mt_service, data = gram_subset)
 
 mod_int_g <- lm(num_score ~ ellipsis_type:mt_service, data = gram_subset)
-
-
-#mixed effect?
