@@ -34,11 +34,19 @@ mod_meaning <- lm(num_score ~ 1, data = meaning_subset)
 summary(mod_meaning)
 
 mod_eltype_m <- lm(num_score ~ ellipsis_type, data = meaning_subset)
+summary(mod_eltype_m)
 
 mod_add_m <- lm(num_score ~ ellipsis_type + mt_service, data = meaning_subset)
 
 mod_int_m <- lm(num_score ~ ellipsis_type:mt_service, data = meaning_subset)
 
+lin_plot_m <- meaning_subset %>%
+  ggplot() +
+  aes(x=ellipsis_type, y=num_score, se=TRUE) +
+  geom_point() +
+  geom_smooth(method=lm)
+
+lin_plot_m
 #constant model - gram (subset of numerical scores corresponding to grammaticality)
 gram_subset <-  subset(data_tidy, num_metric=="grammaticality")
 gram_subset
@@ -51,6 +59,3 @@ mod_eltype_g <- lm(num_score ~ ellipsis_type, data = gram_subset)
 mod_add_g <- lm(num_score ~ ellipsis_type + mt_service, data = gram_subset)
 
 mod_int_g <- lm(num_score ~ ellipsis_type:mt_service, data = gram_subset)
-
-
-#mixed effect model?

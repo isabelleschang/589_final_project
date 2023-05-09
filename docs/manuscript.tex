@@ -275,7 +275,7 @@ arg & google & grammaticality & 5\\
 \hypertarget{descriptive-statistics}{%
 \subsection{Descriptive Statistics}\label{descriptive-statistics}}
 
-Mean scores for meaning and grammaticality are listed below:
+Mean scores for meaning and grammaticality by ellipsis type and machine translatin service are listed below:
 
 \begin{tabular}{l|r|r}
 \hline
@@ -289,11 +289,38 @@ vpel & 3.533333 & 3.314286\\
 \hline
 \end{tabular}
 
+\begin{tabular}{l|r|r}
+\hline
+mt\_service & grammaticality & meaning\\
+\hline
+bing & 3.766667 & 3.604762\\
+\hline
+deepl & 4.100000 & 3.833333\\
+\hline
+google & 4.076191 & 3.761905\\
+\hline
+\end{tabular}
+
+The descriptive statistics suggest that DeepL Translate produces more acceptable translations than Google Translate or Microsoft Bing. Additionally, VPE-like constructs have the lowest average meaning and grammaticality scores, suggesting that this ellipsis type is more difficult to translate than the other two types. The translation services also have higher average grammaticality scores than they do meaning scores, suggesting that services may prioritize the grammaticality over meaning.
+
 \hypertarget{data-analysis}{%
 \subsection{Data Analysis}\label{data-analysis}}
 
-\hypertarget{discussion}{%
-\subsection{Discussion}\label{discussion}}
+The data were analyzed using a general linear model. Meaning score and grammaticality score were the criteria with ellipsis type and machine translation service as predictors. Main effects of ellipsis type and machine translation service and the ellipsis type by machine translation service interaction were assessed using nested model comparisons. Experiment-wise alpha was set at 0.05.
+
+\hypertarget{results---meaning}{%
+\subsection{Results - Meaning}\label{results---meaning}}
+
+There was a main effect of ellipsis type (F(1) = 16.2938, p \textless{} 0.001) but not machine translation service on meaning score. There was also main effect of an ellipsis type by machine translation service interaction (F(1) = 7.7691; p \textless{} 0.001). The model containing the interaction provided the best fit of the data (R2 = 0.085). Although this model is better than the other models tested, it only results in 8.5\% of variance in proficiency score values being explained by the interaction between ellipsis type and machine translation service.
+
+Translation scores of sentences originally utilizing VPE-like constructs are affected by the sentence's possession of this ellipsis type. Specifically, sentences with VPE-like constructs yielded translations scoring 0.7 +/-0.24 se points (t=-2.903, p \textless{} 0.004) lower compared to sentences containing argument ellipsis, which yield and average translation meaning score of 3.74 +/- 0.17 se (t = 21.95, p \textless{} 0.001).
+
+\hypertarget{results---grammaticality}{%
+\subsection{Results - Grammaticality}\label{results---grammaticality}}
+
+There was a main effect of ellipsis type (F(1) = 24.5058, p \textless{} 0.001) and machine translation service (F(1) = 5.0804, p \textless{} 0.007). There was also main effect of an ellipsis type by machine translation service interaction (F(1) = 4.1159; p \textless{} 0.003). The model containing the interaction provided the best fit of the data (R2 = 0.097). Although this model is better than the other models tested, it only results in 9.7\% of variance in proficiency score values being explained by the interaction between ellipsis type and machine translation service.
+
+Translation scores of sentences are affects by the source sentence's ellipsis type. Sentences with argument ellipsis have an average translation grammaticality score of 4.26 +/- 0.14 (t = 29.99, t \textless{} 0.001). Sentences with sluicing score 0.48 +/- 0.20 se (t = -2.4, p \textless{} 0.02) points lower than sentences with argument ellipsis, and sentences with VPE-like constructions score 1.07 +/- 0.20 se (t = -5.3, p \textless{} 0.001) lower.
 
 \newpage
 
